@@ -1,0 +1,501 @@
+CTRL + F to find Question
+
+
+Question 1: What is attention in transformers and can you provide a python example of how it is used ?
+To explain the concept of attention in transformers, we need to understand how self-attention works and then provide a Python example using PyTorch.
+Explanation
+
+Self-Attention: In transformer models, each layer is followed by a self-attention mechanism. Self-attention computes the value for each token based on its own context (query) and the input tokens. The key idea behind self-attention is that it allows us to compute the attention weights directly from the query vector.
+
+Key Points:
+
+    Query: This is the input token or sequence of tokens.
+    Value: This is the current state of the model, which includes the previous output and the intermediate hidden states.
+    Vectors: These are typically vectors (e.g., embeddings) that represent the context for each token.
+
+Example
+
+Let's consider a simple example where we have two input tokens x and y, and their corresponding values z1 and z2. We want to compute the attention weights between these two inputs using self-attention.
+
+import torch
+from transformers import AutoModel, AutoTokenizer
+
+# Load a pre-trained model and tokenizer
+model_name = "bert-base-uncased"  # Example: BERT (Pretrained Model)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+# Tokenize the input tokens
+x = tokenizer.encode("Hello, how are you?", add_special_tokens=True)  # x is [CLS] + token1 + [SEP]
+y = tokenizer.encode("How are you?", add_special_tokens=True)  # y is [SEP] + token2
+
+# Compute the self-attention weights
+query = torch.tensor([x, y], dtype=torch.long)
+value = torch.tensor([[z1, z2]], dtype=torch.float)
+
+# Self-Attention computation
+attention_weights = torch.matmul(query, value.transpose(0, 1)) / (1e-8)  # Normalize the query and value
+
+print("Self-Attention weights:", attention_weights)
+
+Explanation of the Code Snippet:
+
+    Tokenization: We tokenize the input tokens x and y using the tokenizer.
+    Query and Value: We create two tensors, query and value, which contain the token indices for the query and value vectors respectively.
+    Self-Attention: The torch.matmul function computes the dot product between the query vector and the value vector. This results in a matrix of attention weights.
+    Normalization: To get the correct attention weights, we divide each element by the square root of the number of tokens (i.e., 1024) to normalize the output.
+
+Conclusion
+In summary, self-attention is a key component of transformer models that allows for efficient computation of attention weights between input and output tokens. The provided code snippet demonstrates how this mechanism works in practice using PyTorch.
+
+RAG Context:
+Identified Concepts: attention, transformers
+Nodes:
+- Concept: Multi-Head Attention ()
+  Definition: A mechanism in the Transformer model that allows for parallel attention to different sub-sets of input features, improving the model's ability to handle dependencies between positions.
+- Concept: Scaled Dot-Product Attention ()
+  Definition: A specific type of attention function where the input consists of queries and keys of dimension \(d_k\), and values of dimension \(d_v\). The dot products of the query with all keys are computed, divided by \(\sqrt{d_k}\), and a softmax function is applied to obtain the weights on the values.
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html
+- Concept: Positional Embeddings ()
+  Definition: Additional information added to token embeddings to capture the order of words in a sentence.
+- Concept: Multi-Head Self-Attention ()
+  Definition: An extension of the self-attention mechanism where multiple attention heads are used to capture different aspects of the input context.
+- Concept: TransformerBlock ()
+  Definition: A block that combines self-attention and a feed-forward neural network to process sequential data.
+- Concept: Encoder Output Sequence ()
+  Definition: The sequence of outputs from the encoder in a sequence-to-sequence model.
+- Concept: AutoTokenizer ()
+  Definition: A class in the Hugging Face Transformers library for automatically loading a tokenizer
+- Concept: Model Architecture ()
+  Definition: The structure and configuration of a machine learning model, including layers, sizes, and types.
+- Concept: Softmax Function ()
+  Definition: A mathematical function that takes a vector of values and normalizes it into a probability distribution.
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/finetuning/patents/index.html
+- Concept: Single-head Self-Attention ()
+  Definition: A mechanism in neural networks that allows the model to focus on different parts of the input sequence for each position in the sequence.
+- Resource: web_page
+  URL: https://pantelis.github.io/book/llm/index.html
+- Concept: Large Language Models ()
+  Definition: Machine learning models designed to understand and generate human-like text based on patterns learned from large datasets.
+- Concept: Transformers ()
+  Definition: A type of neural network architecture used in natural language processing, particularly for sequence-to-sequence tasks like translation.
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/nmt/nmt-metrics/index.html
+- Concept: Model Stability ()
+  Definition: The ability of a model to perform consistently across different inputs and training conditions.
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html
+- Concept: AutoModelForSequenceClassification ()
+  Definition: A class in the Hugging Face Transformers library for automatically loading a model for sequence classification tasks
+- Concept: Transformer ()
+  Definition: A neural network architecture that uses self-attention mechanisms to process sequences without recurrence or convolution.
+- Concept: RNN Language Model ()
+  Definition: A type of recurrent neural network used for predicting the next character in a sequence of characters.
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/tokenization/index.html
+- Concept: WordEmbed ()
+  Definition: A class that extends nn.Module to create an embedding layer for word vectors.
+- Concept: Softmax Activation ()
+  Definition: An activation function that converts logits into probabilities.
+- Concept: Context-free Embedding ()
+  Definition: A representation of words without considering their context in the sentence.
+- Concept: CrossAttention ()
+  Definition: A type of attention mechanism that allows the model to attend to both the input sequence and an external context.
+- Concept: Self-Attention Mechanism ()
+  Definition: A method in neural networks that allows the model to focus on different parts of the input sequence when generating an output.
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html
+- Concept: Bahdanau Attention ()
+  Definition: A specific type of attention mechanism that uses a fully connected neural network to score the alignment between the encoder and decoder hidden states.
+- Concept: random ()
+  Definition: A Python module for generating random numbers and sampling
+- Concept: Dense Neural Networks ()
+  Definition: A type of neural network where each neuron in one layer is connected to every neuron in the next layer, using the cross entropy loss function for training.
+- Concept: Scaling ()
+  Definition: The process of adjusting the magnitude of a value or set of values by multiplying them by a constant factor.
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/transformers/multihead-self-attention.html
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html
+- Concept: LLM Inference ()
+  Definition: Inference process in language models
+- Concept: Seq2Seq Neural Machine Translation ()
+  Definition: A type of neural network architecture used for sequence-to-sequence tasks, such as machine translation.
+- Concept: Query ()
+  Definition: The current state of the decoder network used to compare with the keys in the attention mechanism.
+- Concept: ResBlock ()
+  Definition: A residual block in neural networks that helps in training deep networks.
+- Concept: Neural Machine Translation ()
+  Definition: A method for automatically translating text from one language to another using neural networks.
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html
+- Concept: Python logging ()
+  Definition: A Python module for emitting log messages from Python programs
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/transformers/attention_scaling_explained.html
+- Concept: SpatialTransformer ()
+  Definition: A mechanism to apply attention to spatial tensors in a U-Net architecture, transforming them to sequential tensors and back.
+- Concept: Positional Embeddings ()
+  Definition: Additional information added to tokens to capture their position in a sequence, especially useful in recurrent neural networks (RNNs).
+- Concept: gpt2 Tokenizer ()
+  Definition: A tokenizer with approximately 50,000 vocabulary size used by the GPT-2 model.
+- Concept: Decoder Output ()
+  Definition: The output from the decoder in a sequence-to-sequence model, used as input for computing attention scores.
+- Resource: web_page
+  URL: https://pantelis.github.io/book/multimodal/index.html
+- Concept: Value Vector ()
+  Definition: A vector used in the attention function to represent the value part of the key-value pairs.
+- Concept: defaultdict ()
+  Definition: A dictionary subclass in the collections module that provides a default value for non-existent keys
+- Concept: Attention Mechanism ()
+  Definition: A technique used in neural networks to focus on certain parts of the input sequence when making predictions.
+- Concept: Skip Connections ()
+  Definition: A technique used in neural networks to bypass one or more layers and add the output directly to the layer's input.
+- Concept: Model ()
+  Definition: A function that predicts values based on input coordinates and parameters.
+- Concept: Key Vector ()
+  Definition: A vector used in the attention function to represent the key part of the key-value pairs.
+- Concept: Sequence-to-Sequence Model ()
+  Definition: A model architecture used for tasks like translation and summarization, which takes a sequence as input and produces a sequence as output.
+- Concept: UNet Architecture ()
+  Definition: A deep learning architecture used for image segmentation tasks.
+- Concept: Self-Attention ()
+  Definition: A mechanism in neural networks, particularly in natural language processing, where the model pays attention to different parts of the input sequence to compute a weighted sum of the input features.
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html
+- Concept: Vanishing Gradients ()
+  Definition: A problem in deep learning where the gradients become very small, making it difficult for the network to learn.
+- Concept: forward ()
+  Definition: A method that implements the forward pass of a neural network layer.
+- Concept: Recurrent Neural Network ()
+  Definition: A type of neural network designed to recognize patterns in sequences of data such as time series or natural language.
+- Concept: Natural Language Processing (NLP) ()
+  Definition: A field of computer science, artificial intelligence, and linguistics concerned with the interactions between computers and human (natural) languages.
+- Resource: web_page
+  URL: https://pantelis.github.io/courses/ai/syllabus/index.html
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html
+- Resource: web_page
+  URL: https://pantelis.github.io/courses/cv/syllabus/index.html
+- Concept: Multilayer Perceptron (MLP) ()
+  Definition: A feedforward artificial neural network model that consists of multiple layers of nodes between the input and output layers.
+
+Edges:
+- multi_head_attention --[INVOLVES]--> attention
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> unet_architecture
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> forward
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> model
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> wordembed
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> attention
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> crossattention
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> transformerblock
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> spatialtransformer
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> softmax
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> query
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> key
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> value
+- https://pantelis.github.io/aiml-common/lectures/stable-diffusion/harvard-tutorial/Diffusion_Model_with_Cross_Attention_(student).html --[explains]--> self_attention
+- positional_embeddings --[PART_OF]--> large_language_models
+- positional_embeddings --[PART_OF]--> transformers
+- multi_head_self_attention --[IS_A]--> self_attention
+- multi_head_self_attention --[IS_A]--> single_head_self_attention
+- multi_head_self_attention --[IS_A]--> self_attention_mechanism
+- multi_head_self_attention --[DEPENDS_ON]--> positional_embeddings
+- multi_head_self_attention --[PART_OF]--> transformers
+- transformerblock --[CONTAINS]--> attention
+- softmax_function --[USED_IN]--> attention
+- softmax_function --[RELATED_TO]--> softmax_function
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> rnn_language_model
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> single_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> multilayer_perceptron
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> positional_embeddings
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> large_language_models
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> skip_connections
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> query
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> softmax
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> seq2seq_neural_machine_translation
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html --[explains]--> bahdanau_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/finetuning/patents/index.html --[explains]--> large_language_models
+- https://pantelis.github.io/aiml-common/lectures/nlp/finetuning/patents/index.html --[explains]--> transformers
+- https://pantelis.github.io/aiml-common/lectures/nlp/finetuning/patents/index.html --[explains]--> AutoTokenizer
+- https://pantelis.github.io/aiml-common/lectures/nlp/finetuning/patents/index.html --[explains]--> AutoModelForSequenceClassification
+- https://pantelis.github.io/aiml-common/lectures/nlp/finetuning/patents/index.html --[explains]--> defaultdict
+- https://pantelis.github.io/aiml-common/lectures/nlp/finetuning/patents/index.html --[explains]--> random
+- https://pantelis.github.io/aiml-common/lectures/nlp/finetuning/patents/index.html --[explains]--> logging
+- https://pantelis.github.io/aiml-common/lectures/nlp/finetuning/patents/index.html --[explains]--> model
+- singlehead_self_attention --[PART_OF]--> transformers
+- https://pantelis.github.io/book/llm/index.html --[explains]--> rnn_language_model
+- https://pantelis.github.io/book/llm/index.html --[explains]--> sequence_to_sequence_model
+- https://pantelis.github.io/book/llm/index.html --[explains]--> attention
+- https://pantelis.github.io/book/llm/index.html --[explains]--> transformer
+- https://pantelis.github.io/book/llm/index.html --[explains]--> rnn
+- https://pantelis.github.io/book/llm/index.html --[explains]--> nmt
+- https://pantelis.github.io/book/llm/index.html --[explains]--> single_head_self_attention
+- https://pantelis.github.io/book/llm/index.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/book/llm/index.html --[explains]--> self_attention
+- https://pantelis.github.io/book/llm/index.html --[explains]--> large_language_models
+- large_language_models --[RELATED_TO]--> transformers
+- transformers --[USES]--> self_attention_mechanism
+- transformers --[IS_A]--> AutoTokenizer
+- transformers --[IS_A]--> AutoModelForSequenceClassification
+- transformers --[DEPENDS_ON]--> defaultdict
+- transformers --[DEPENDS_ON]--> random
+- transformers --[DEPENDS_ON]--> logging
+- transformers --[IS_A]--> multi_head_self_attention
+- transformers --[IS_A]--> single_head_self_attention
+- transformers --[USED_IN]--> multilayer_perceptron
+- transformers --[RELATED_TO]--> positional_embeddings
+- transformers --[USES]--> self_attention
+- transformers --[IS_A]--> dense_neural_networks
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/nmt-metrics/index.html --[explains]--> large_language_models
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/nmt-metrics/index.html --[explains]--> single_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/nmt-metrics/index.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/nmt-metrics/index.html --[explains]--> multilayer_perceptron
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/nmt-metrics/index.html --[explains]--> positional_embeddings
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/nmt-metrics/index.html --[explains]--> sequence_to_sequence_model
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/nmt-metrics/index.html --[explains]--> attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> singlehead_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> large_language_models
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> transformers
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> rnn_language_model
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> single_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> multilayer_perceptron
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> positional_embeddings
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> llm_inference
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> scaling
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> softmax
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> context_free_embedding
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> query
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> scaled_dot_product_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> key
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> value
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> softmax_function
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> self_attention_mechanism
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/singlehead-self-attention.html --[explains]--> self_attention
+- transformer --[HAS_COMPONENT]--> multi_head_attention
+- transformer --[USES]--> self_attention
+- rnn_language_model --[RELATED_TO]--> attention
+- rnn_language_model --[RELATED_TO]--> multi_head_self_attention
+- rnn_language_model --[RELATED_TO]--> single_head_self_attention
+- rnn_language_model --[RELATED_TO]--> positional_embeddings
+- rnn_language_model --[RELATED_TO]--> llm_inference
+- rnn_language_model --[RELATED_TO]--> large_language_models
+- rnn_language_model --[IS_A]--> nmt
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/tokenization/index.html --[explains]--> rnn_language_model
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/tokenization/index.html --[explains]--> single_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/tokenization/index.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/tokenization/index.html --[explains]--> multilayer_perceptron
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/tokenization/index.html --[explains]--> positional_embeddings
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/tokenization/index.html --[explains]--> llm_inference
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/tokenization/index.html --[explains]--> large_language_models
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/tokenization/index.html --[explains]--> gpt2
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/tokenization/index.html --[explains]--> attention
+- wordembed --[USES]--> attention
+- softmax --[PART_OF]--> scaled_dot_product_attention
+- softmax --[INVOLVES]--> forward
+- context_free_embedding --[PART_OF]--> transformers
+- self_attention_mechanism --[DEPENDS_ON]--> softmax_function
+- self_attention_mechanism --[INVOLVES]--> query
+- self_attention_mechanism --[INVOLVES]--> key
+- self_attention_mechanism --[INVOLVES]--> value
+- https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html --[explains]--> rnn_language_model
+- https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html --[explains]--> attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html --[explains]--> transformers
+- https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html --[explains]--> single_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html --[explains]--> multilayer_perceptron
+- https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html --[explains]--> positional_embeddings
+- https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html --[explains]--> llm_inference
+- https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html --[explains]--> rnn
+- https://pantelis.github.io/aiml-common/lectures/nlp/language-models/simple-rnn-language-model/index.html --[explains]--> softmax
+- bahdanau_attention --[IS_A]--> attention
+- single_head_self_attention --[IS_A]--> self_attention
+- single_head_self_attention --[IS_A]--> self_attention_mechanism
+- single_head_self_attention --[PART_OF]--> multi_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/multihead-self-attention.html --[explains]--> rnn_language_model
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/multihead-self-attention.html --[explains]--> nmt
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/multihead-self-attention.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/multihead-self-attention.html --[explains]--> transformers
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/multihead-self-attention.html --[explains]--> position_embeddings
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/multihead-self-attention.html --[explains]--> llm_inference
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/multihead-self-attention.html --[explains]--> skip_connections
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html --[explains]--> large_language_models
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html --[explains]--> rnn_language_model
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html --[explains]--> attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html --[explains]--> transformers
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html --[explains]--> single_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html --[explains]--> multilayer_perceptron
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html --[explains]--> positional_embeddings
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html --[explains]--> sequence_to_sequence_model
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-workshop/lstm_seq2seq.html --[explains]--> model
+- llm_inference --[RELATED_TO]--> large_language_models
+- llm_inference --[USES]--> transformers
+- seq2seq_neural_machine_translation --[USES]--> attention
+- query --[PART_OF]--> attention
+- query --[PART_OF]--> forward
+- query --[DEPENDS_ON]--> key
+- resblock --[DEPENDS_ON]--> attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> rnn
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> transformers
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> single_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> multilayer_perceptron
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> positional_embeddings
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> large_language_models
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> softmax
+- https://pantelis.github.io/aiml-common/lectures/nlp/nlp-introduction/word2vec/index.html --[explains]--> softmax_function
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/attention_scaling_explained.html --[explains]--> scaling
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/attention_scaling_explained.html --[explains]--> softmax
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/attention_scaling_explained.html --[explains]--> attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/attention_scaling_explained.html --[explains]--> vanishing_gradients
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/attention_scaling_explained.html --[explains]--> model_stability
+- spatialtransformer --[CONTAINS]--> attention
+- position_embeddings --[PART_OF]--> transformers
+- https://pantelis.github.io/book/multimodal/index.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/book/multimodal/index.html --[explains]--> single_head_self_attention
+- https://pantelis.github.io/book/multimodal/index.html --[explains]--> transformers
+- https://pantelis.github.io/book/multimodal/index.html --[explains]--> self_attention_mechanism
+- https://pantelis.github.io/book/multimodal/index.html --[explains]--> context_free_embedding
+- https://pantelis.github.io/book/multimodal/index.html --[explains]--> large_language_models
+- https://pantelis.github.io/book/multimodal/index.html --[explains]--> positional_embeddings
+- value --[PART_OF]--> attention
+- value --[PART_OF]--> forward
+- attention --[PART_OF]--> transformer
+- attention --[DEPENDS_ON]--> gpt2
+- attention --[USED_IN]--> transformers
+- attention --[PART_OF]--> model_architecture
+- attention --[IS_A]--> scaled_dot_product_attention
+- attention --[INVOKES]--> forward
+- attention --[USED_IN]--> model
+- attention --[DEPENDS_ON]--> scaling
+- attention --[INVOLVES]--> softmax
+- attention --[CAUSES]--> vanishing_gradients
+- attention --[IMPROVES]--> model_stability
+- attention --[USED_IN]--> nmt
+- attention --[REQUIRES]--> encoder_output_seq
+- attention --[REQUIRES]--> decoder_output
+- attention --[IS_A]--> crossattention
+- skip_connections --[PART_OF]--> transformers
+- key --[PART_OF]--> attention
+- key --[PART_OF]--> forward
+- sequence_to_sequence_model --[USES]--> attention
+- unet_architecture --[CONTAINS]--> resblock
+- unet_architecture --[CONTAINS]--> attention
+- self_attention --[IS_A]--> multi_head_self_attention
+- self_attention --[INVOLVES]--> forward
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html --[explains]--> positional_embeddings
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html --[explains]--> large_language_models
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html --[explains]--> transformers
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html --[explains]--> rnn
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html --[explains]--> nmt
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html --[explains]--> attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html --[explains]--> transformer
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html --[explains]--> self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html --[explains]--> single_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/positional_embeddings.html --[explains]--> multi_head_self_attention
+- vanishing_gradients --[AFFECTS]--> rnn
+- rnn --[RELATED_TO]--> transformers
+- rnn --[IS_A]--> nmt
+- nlp --[INVOLVES]--> rnn
+- nlp --[INVOLVES]--> attention
+- nlp --[INVOLVES]--> transformer
+- https://pantelis.github.io/courses/ai/syllabus/index.html --[explains]--> large_language_models
+- https://pantelis.github.io/courses/ai/syllabus/index.html --[explains]--> nlp
+- https://pantelis.github.io/courses/ai/syllabus/index.html --[explains]--> rnn
+- https://pantelis.github.io/courses/ai/syllabus/index.html --[explains]--> attention
+- https://pantelis.github.io/courses/ai/syllabus/index.html --[explains]--> transformer
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb --[explains]--> sequence_to_sequence_model
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb --[explains]--> forward
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb --[explains]--> model
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb --[explains]--> softmax
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb --[explains]--> encoder_output_seq
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb --[explains]--> decoder_output
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb --[explains]--> attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> transformer
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> multi_head_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> model_architecture
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> scaled_dot_product_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> query
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> key
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> value
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> softmax_function
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> multi_head_self_attention
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> scaling
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> forward
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> softmax
+- https://pantelis.github.io/aiml-common/lectures/nlp/transformers/annotated_transformer.html --[explains]--> model
+- https://pantelis.github.io/courses/cv/syllabus/index.html --[explains]--> large_language_models
+- https://pantelis.github.io/courses/cv/syllabus/index.html --[explains]--> dense_neural_networks
+- https://pantelis.github.io/courses/cv/syllabus/index.html --[explains]--> transformers
+
+
+
+Question 2: What is CLIP and how it is used in computer vision applications ?
+Contrastive loss is a type of loss function used in representation learning to maximize the similarity between positive samples and minimize the similarity between negative samples. It is often used in contrastive learning, which aims to learn a mapping from one distribution to another by maximizing the distance between positive examples and minimizing the distance between negative examples.
+
+In computer vision applications, contrastive loss can be particularly useful for tasks such as image classification, where the goal is to predict the class of an input image. The input images are typically represented using feature vectors or embeddings, which capture relevant features from the input data.
+
+The dot product operation in contrastive loss is used to compute the similarity between two samples. In this context, it measures how similar two points are on a 2D plane (e.g., pixels of an image). The dot product is then multiplied by a weight factor, which can be adjusted based on the specific task and dataset.
+
+The one shot classification problem involves predicting the class of an input image using a pre-trained model. In this case, contrastive loss is used to optimize the model's predictions by maximizing the similarity between positive examples (e.g., images with similar content) and minimizing the similarity between negative examples (e.g., images with different content).
+
+In summary, contrastive loss in computer vision applications involves computing the distance between input samples using a dot product operation. This distance is then used to optimize model parameters, allowing the model to learn more accurate representations of its training data.
+
+RAG Context:
+Identified Concepts: CLIP, contrastive loss, dot product, one shot classification
+Nodes:
+- Concept: 3 ()
+  Definition: The number three
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb
+- Concept: 2 ()
+  Definition: 
+- Resource: web_page
+  URL: https://pantelis.github.io/aiml-common/lectures/VLM/clip/index.html   
+- Concept: 1 ()
+  Definition: The number one
+
+Edges:
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb --[explains]--> 2
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb --[explains]--> 3
+- https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-attention-workshop/seq2seq_and_attention.ipynb --[explains]--> 1
+
+
+Question 3: Can you explain the variational lower bound and how it relates to Jensen’s inequality ?
+
+RAG Context:
+Jensen’s inequality states that for any random variable ( X ), the expected value of the product of a non-negative random variable and its quantile is greater than or equal to the product of the expected value of the random variable and its quantile. Mathematically, it can be expressed as: [ E[XY] \geq E[X] \cdot P(X) ] where ( X ) is a random variable, ( Y ) is another random variable, ( P(X) ) is the probability of ( X ), and ( E[Y] ) is the expected value of ( Y ).
+
+The variational lower bound is an optimization technique used in machine learning to find the best approximation of a function. It involves minimizing a functional that measures the distance between the empirical distribution of the data points and the true distribution of the parameters. The goal is to find a parameterization of the model that minimizes this functional, which can be seen as finding the "best" possible solution for the model.
+
+In the context of Jensen’s inequality, it's important to note that while Jensen’s inequality provides an upper bound on the expected value of a random variable, it does not directly relate to the variational lower bound. However, in some contexts, such as in the analysis of algorithms and machine learning models, the variational lower bound can be used to provide insights into the performance of certain optimization techniques or algorithms.
+
+To illustrate this, consider a simple example where we have a function ( f(x) ) that is differentiable at ( x = c ). The variational lower bound for ( f(x) ) around ( x = c ) can be expressed as: [ E[f(X)] - E[f(c)] \leq \frac{1}{c} \sum_{i=1}^{n} (X_i - c)^2 ] where ( X_1, X_2, ..., X_n ) are the data points and ( n ) is the number of data points.
+
+In this context, the variational lower bound can be used to compare different optimization algorithms or models. For example, if we have two optimization algorithms that approximate the same function but use slightly different parameterizations, the variational lower bound can help us understand how well one algorithm performs compared to another in terms of minimizing a certain functional.
+
+In summary, while Jensen’s inequality provides an upper bound on the expected value of a random variable, it does not directly relate to the variational lower bound. However, in some contexts, such as in machine learning and optimization algorithms, the variational lower bound can be used to provide insights into the performance of certain techniques or models.
+
+RAG Context:
+
+
+Nodes:
+- Concept: Jensen’s inequality ()
+  Definition: 
+
+Edges:
+- https://pantelis.github.io/aiml-common/lectures/vae/elbo-optimization/elbo_optimization_torch.html --[explains]--> Jensen’s inequality
+
