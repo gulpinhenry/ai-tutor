@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8501:8501"
+    command: tail -f /dev/null
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=https://openrouter.ai/api/v1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  mongo_data:
